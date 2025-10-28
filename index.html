@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Registry DApp</title>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 500px; width: 100%; }
+        h1 { color: #333; }
+        .btn { background-color: #007bff; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 10px 5px; transition: background-color 0.3s; }
+        .btn:hover { background-color: #0056b3; }
+        .btn-secondary { background-color: #6c757d; }
+        .btn-secondary:hover { background-color: #5a6268; }
+        input { width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        #carDetails, #status { margin-top: 20px; padding: 15px; border-radius: 5px; background-color: #e9ecef; color: #495057; text-align: left; }
+        #walletAddress { font-size: 0.9em; color: #666; margin-top: 15px; word-wrap: break-word; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Car Registry DApp</h1>
+        <button id="connectWalletBtn" class="btn">Connect Wallet</button>
+        <p id="walletAddress"></p>
+
+        <div id="dapp" style="display:none;">
+            <hr>
+            <h2>Register Your Car</h2>
+            <input type="text" id="carName" placeholder="Enter Car Name" required>
+            <input type="text" id="carModel" placeholder="Enter Car Model" required>
+            <button id="registerBtn" class="btn">Register Car</button>
+            
+            <hr>
+            <h2>View Your Car</h2>
+            <button id="viewCarBtn" class="btn btn-secondary">View My Car</button>
+            
+            <div id="status"></div>
+            <div id="carDetails"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
