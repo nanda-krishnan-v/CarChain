@@ -1,6 +1,8 @@
 # Car Registry DApp
 
-This is a simple decentralized application (DApp) that allows users to register their car details on the Ethereum Hoodie test network. It provides a web interface for users to connect their MetaMask wallet and interact with a smart contract without needing to use Remix IDE or write Solidity code.
+This is a simple decentralized application (DApp) that allows users to register their car details on the **Sepolia test network**. It provides a web interface for users to connect their MetaMask wallet and interact with a smart contract without needing to use Remix IDE or write Solidity code.
+
+> **Note:** We are using the Sepolia testnet because it is stable and widely supported, ensuring a reliable development experience.
 
 ## Features
 
@@ -27,7 +29,7 @@ This is a simple decentralized application (DApp) that allows users to register 
 
 1.  **MetaMask**: A web browser extension for managing Ethereum wallets. [Download here](https://metamask.io/).
 2.  **Node.js & npm**: Required if you want to serve the files locally using a simple server.
-3.  **Test Ether**: You'll need some test Ether for the **Ethereum Hoodie** test network to pay for gas fees. You can get this from a faucet.
+3.  **Sepolia Test Ether**: You'll need some test Ether for the **Sepolia** test network to pay for gas fees. You can get this from a public faucet like [sepoliafaucet.com](https://sepoliafaucet.com/) or [infura.io/faucet/sepolia](https://infura.io/faucet/sepolia).
 
 ### Step 1: Deploy the Smart Contract
 
@@ -40,7 +42,7 @@ This is a simple decentralized application (DApp) that allows users to register 
 4.  **Deploy the Contract**:
     - Go to the "Deploy & Run Transactions" tab (fourth icon).
     - In the "ENVIRONMENT" dropdown, select **Injected Provider - MetaMask**. This will connect Remix to your MetaMask wallet.
-    - Make sure your MetaMask is connected to the **Ethereum Hoodie** test network.
+    - Make sure your MetaMask is connected to the **Sepolia** test network. If you don't see it, you can enable it in MetaMask's settings under "Advanced" > "Show test networks".
     - Under the "CONTRACT" dropdown, make sure `CarRegistry` is selected.
     - Click the **Deploy** button and confirm the transaction in MetaMask.
 
