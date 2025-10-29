@@ -1,6 +1,6 @@
 # Car Registry DApp
 
-This is a simple decentralized application (DApp) that allows users to register their car details on the **Sepolia test network**. It provides a web interface for users to connect their MetaMask wallet and interact with a smart contract without needing to use Remix IDE or write Solidity code.
+This is a simple decentralized application (DApp) that allows users to register their car details on the **Hoodie test network**. It provides a web interface for users to connect their MetaMask wallet and interact with a smart contract without needing to use Remix IDE or write Solidity code.
 
 > **Note:** We are using the Sepolia testnet because it is stable and widely supported, ensuring a reliable development experience.
 
