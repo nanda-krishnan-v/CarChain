@@ -60,21 +60,46 @@ This is a simple decentralized application (DApp) that allows users to register 
 2.  **Update Contract Address**: Find the line `const contractAddress = 'YOUR_CONTRACT_ADDRESS';` and replace `YOUR_CONTRACT_ADDRESS` with the address you copied from Remix.
 3.  **Update Contract ABI**: Find the line `const contractABI = [];` and paste the ABI you copied from Remix inside the square brackets `[]`.
 
-    *Before:*
+    _Before:_
+
     ```javascript
     const contractABI = [];
     ```
 
-    *After (example):*
+    _After (example):_
+
     ```javascript
     const contractABI = [{"inputs":[...],"name":"CarRegistered","type":"event"}, ...];
     ```
 
-### Step 4: Run the DApp
+### Step 4: Run the DApp on Localhost
 
-1.  **Open `index.html`**: Simply open the `index.html` file in your web browser.
-2.  **Connect Wallet**: Click the "Connect Wallet" button and approve the connection in MetaMask.
-3.  **Interact**: You can now register your car and view its details.
+**Important:** MetaMask requires the DApp to be served from `http://localhost` (not `file://`) to work properly.
+
+**Option 1: Using Python (Easiest)**
+
+1. Open a terminal/command prompt in the project folder
+2. Run: `python -m http.server 8000`
+   - Or double-click `start-server.bat` (Windows)
+   - Or run `.\start-server.ps1` (PowerShell)
+3. Open your browser and go to: `http://localhost:8000`
+
+**Option 2: Using Node.js**
+
+1. Open a terminal/command prompt in the project folder
+2. Run: `node server.js`
+   - Or run: `npx http-server -p 8000`
+3. Open your browser and go to: `http://localhost:8000`
+
+**Option 3: Using VS Code**
+
+1. Install the "Live Server" extension in VS Code
+2. Right-click `index.html` → "Open with Live Server"
+
+**After the server starts:**
+
+1. **Connect Wallet**: Click the "Connect Wallet" button and approve the connection in MetaMask
+2. **Interact**: You can now register your car and view its details
 
 ## How It Works
 
