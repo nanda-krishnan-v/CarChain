@@ -9,108 +9,112 @@ const statusDiv = document.getElementById("status");
 const carDetailsDiv = document.getElementById("carDetails");
 const walletAddressP = document.getElementById("walletAddress");
 const dappDiv = document.getElementById("dapp");
+const carNameDisplay = document.getElementById("carNameDisplay");
+const carNameValue = document.getElementById("carNameValue");
+const carModelValue = document.getElementById("carModelValue");
+const noCarMessage = document.getElementById("noCarMessage");
 
 // ------------------------------------------------------------------
 // TODO: REPLACE WITH YOUR CONTRACT ADDRESS AND ABI
 // ------------------------------------------------------------------
 const contractAddress = "0x6F36900b70FCfbB0706B43b10CaF4Ea30510e0d1"; // <-- Replace with your deployed contract address
 const contractABI = [
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "model",
-				"type": "string"
-			}
-		],
-		"name": "CarRegistered",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_model",
-				"type": "string"
-			}
-		],
-		"name": "registerCar",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "cars",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "model",
-				"type": "string"
-			},
-			{
-				"internalType": "bool",
-				"name": "isRegistered",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_owner",
-				"type": "address"
-			}
-		],
-		"name": "getCar",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "model",
+        type: "string",
+      },
+    ],
+    name: "CarRegistered",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_model",
+        type: "string",
+      },
+    ],
+    name: "registerCar",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "cars",
+    outputs: [
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "model",
+        type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isRegistered",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+    ],
+    name: "getCar",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ]; // <-- Replace with your contract's ABI
 // ------------------------------------------------------------------
 
@@ -142,7 +146,11 @@ connectWalletBtn.addEventListener("click", async () => {
     connectWalletBtn.style.display = "none";
     dappDiv.style.display = "block";
     statusDiv.innerText = "Wallet connected successfully.";
+    statusDiv.className = "status-success";
     carDetailsDiv.innerText = "";
+
+    // Try to load car details if wallet is already connected
+    loadCarDetails();
   } catch (error) {
     console.error("Error connecting wallet:", error);
     statusDiv.innerText = `Error: ${error.message}`;
@@ -169,10 +177,15 @@ registerBtn.addEventListener("click", async () => {
 
     const receipt = await tx.wait(); // Wait for the transaction to be mined
 
+    // Update prominent car name display
+    carNameValue.textContent = carName;
+    carModelValue.textContent = carModel;
+    carNameDisplay.style.display = "block";
+    noCarMessage.style.display = "none";
+
     // Display transaction details in a beautiful format
     statusDiv.innerText = "✅ Car registered successfully!";
-    statusDiv.style.backgroundColor = "#d4edda";
-    statusDiv.style.color = "#155724";
+    statusDiv.className = "status-success";
 
     carDetailsDiv.innerHTML = `
             <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 15px; border: 1px solid #dee2e6;">
@@ -237,13 +250,58 @@ registerBtn.addEventListener("click", async () => {
             `;
     } else if (error.message.includes("user rejected")) {
       statusDiv.innerText = "❌ Transaction Cancelled";
-      statusDiv.style.backgroundColor = "#f8d7da";
-      statusDiv.style.color = "#721c24";
+      statusDiv.className = "status-error";
       carDetailsDiv.innerHTML = `<p style="text-align: center; color: #666;">You rejected the transaction in MetaMask.</p>`;
+    } else if (
+      error.message.includes("insufficient funds") ||
+      error.message.includes("Insufficient funds") ||
+      error.code === -32603 ||
+      error.message.includes("gas")
+    ) {
+      statusDiv.innerText = "⚠️ Insufficient Funds";
+      statusDiv.className = "status-error";
+      carDetailsDiv.innerHTML = `
+        <div style="background-color: #fff3cd; padding: 20px; border-radius: 10px; border: 2px solid #ffc107;">
+          <h3 style="margin-top: 0; color: #856404;">💰 You Need Test ETH</h3>
+          <p style="color: #856404; margin-bottom: 15px;">
+            You don't have enough test ETH to pay for gas fees. Even on test networks, you need ETH to pay for transactions!
+          </p>
+          <div style="background-color: white; padding: 15px; border-radius: 8px; margin: 15px 0;">
+            <h4 style="margin-top: 0; color: #333;">How to Get Free Test ETH:</h4>
+            <ol style="text-align: left; color: #333; padding-left: 20px;">
+              <li style="margin-bottom: 10px;">Check which test network you're on in MetaMask</li>
+              <li style="margin-bottom: 10px;">Copy your wallet address from MetaMask</li>
+              <li style="margin-bottom: 10px;">Visit a faucet website (see links below)</li>
+              <li style="margin-bottom: 10px;">Paste your address and complete verification</li>
+              <li style="margin-bottom: 10px;">Wait 1-5 minutes for test ETH to arrive</li>
+            </ol>
+          </div>
+          <div style="background-color: #e7f3ff; padding: 15px; border-radius: 8px; margin-top: 15px;">
+            <h4 style="margin-top: 0; color: #004085;">Quick Faucet Links:</h4>
+            <ul style="text-align: left; color: #004085; padding-left: 20px;">
+              <li style="margin-bottom: 8px;">
+                <strong>Sepolia:</strong> 
+                <a href="https://sepoliafaucet.com/" target="_blank" style="color: #007bff;">sepoliafaucet.com</a> or 
+                <a href="https://infura.io/faucet/sepolia" target="_blank" style="color: #007bff;">infura.io/faucet/sepolia</a>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>Holesky:</strong> 
+                <a href="https://holesky-faucet.pk910.de/" target="_blank" style="color: #007bff;">holesky-faucet.pk910.de</a>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>Goerli:</strong> 
+                <a href="https://goerlifaucet.com/" target="_blank" style="color: #007bff;">goerlifaucet.com</a>
+              </li>
+            </ul>
+          </div>
+          <p style="color: #856404; margin-top: 15px; font-size: 0.9em;">
+            💡 <strong>Tip:</strong> Check the <code>GET_TEST_ETH.md</code> file in your project for detailed instructions!
+          </p>
+        </div>
+      `;
     } else {
       statusDiv.innerText = "❌ Error: Failed to register car.";
-      statusDiv.style.backgroundColor = "#f8d7da";
-      statusDiv.style.color = "#721c24";
+      statusDiv.className = "status-error";
       carDetailsDiv.innerHTML = `<p style="text-align: center; color: #666;">${error.message}</p>`;
     }
   }
@@ -259,6 +317,12 @@ viewCarBtn.addEventListener("click", async () => {
     const car = await contract.getCar(ownerAddress);
 
     if (car && car[0] && car[1]) {
+      // Update prominent car name display
+      carNameValue.textContent = car[0];
+      carModelValue.textContent = car[1];
+      carNameDisplay.style.display = "block";
+      noCarMessage.style.display = "none";
+
       carDetailsDiv.innerHTML = `
                 <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                     <tr style="background-color: #007bff; color: white;">
@@ -280,12 +344,14 @@ viewCarBtn.addEventListener("click", async () => {
                 </table>
             `;
       statusDiv.innerText = "✅ Car details retrieved successfully!";
-      statusDiv.style.backgroundColor = "#d4edda";
-      statusDiv.style.color = "#155724";
+      statusDiv.className = "status-success";
     } else {
+      // Hide car name display
+      carNameDisplay.style.display = "none";
+      noCarMessage.style.display = "block";
+
       statusDiv.innerText = "ℹ️ No car found for this address.";
-      statusDiv.style.backgroundColor = "#fff3cd";
-      statusDiv.style.color = "#856404";
+      statusDiv.className = "status-info";
       carDetailsDiv.innerText = "";
     }
   } catch (error) {
@@ -295,9 +361,12 @@ viewCarBtn.addEventListener("click", async () => {
       error.message.includes("execution reverted") ||
       error.message.includes("revert")
     ) {
+      // Hide car name display
+      carNameDisplay.style.display = "none";
+      noCarMessage.style.display = "block";
+
       statusDiv.innerText = "ℹ️ No car registered for this address yet.";
-      statusDiv.style.backgroundColor = "#fff3cd";
-      statusDiv.style.color = "#856404";
+      statusDiv.className = "status-info";
       carDetailsDiv.innerHTML =
         '<p style="text-align: center; color: #666;">Please register a car first using the form above.</p>';
     } else {
@@ -309,3 +378,27 @@ viewCarBtn.addEventListener("click", async () => {
     }
   }
 });
+
+// Function to load and display car details automatically
+async function loadCarDetails() {
+  if (!signer || !contract) return;
+
+  try {
+    const ownerAddress = await signer.getAddress();
+    const car = await contract.getCar(ownerAddress);
+
+    if (car && car[0] && car[1]) {
+      carNameValue.textContent = car[0];
+      carModelValue.textContent = car[1];
+      carNameDisplay.style.display = "block";
+      noCarMessage.style.display = "none";
+    } else {
+      carNameDisplay.style.display = "none";
+      noCarMessage.style.display = "block";
+    }
+  } catch (error) {
+    // No car registered yet, hide the display
+    carNameDisplay.style.display = "none";
+    noCarMessage.style.display = "block";
+  }
+}

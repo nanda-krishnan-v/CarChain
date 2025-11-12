@@ -66,7 +66,7 @@
       .theme-toggle {
         background: var(--bg-secondary);
         border: 2px solid var(--border-color);
-        border-radius: 25px;
+        border-radius: 15px;
         width: 60px;
         height: 30px;
         position: relative;
@@ -100,16 +100,18 @@
         max-width: 1400px;
         margin: 0 auto;
         flex-wrap: wrap;
+        justify-content: center;
       }
 
       .container {
         background-color: var(--bg-secondary);
         padding: 30px;
-        border-radius: 15px;
+        border-radius: 6px;
         box-shadow: 0 4px 12px var(--shadow);
         flex: 1;
         min-width: 300px;
         transition: background-color 0.3s, box-shadow 0.3s;
+        text-align: center;
       }
 
       .container-left {
@@ -122,6 +124,7 @@
 
       .section {
         margin-bottom: 25px;
+        text-align: center;
       }
 
       .section h2 {
@@ -130,6 +133,7 @@
         font-size: 1.5rem;
         border-bottom: 2px solid var(--border-color);
         padding-bottom: 10px;
+        text-align: center;
       }
 
       .btn {
@@ -137,7 +141,7 @@
         color: white;
         border: none;
         padding: 12px 24px;
-        border-radius: 8px;
+        border-radius: 4px;
         cursor: pointer;
         font-size: 16px;
         font-weight: 500;
@@ -169,6 +173,7 @@
         gap: 10px;
         margin-bottom: 15px;
         flex-wrap: wrap;
+        justify-content: center;
       }
 
       input {
@@ -176,7 +181,7 @@
         min-width: 200px;
         padding: 12px;
         border: 2px solid var(--border-color);
-        border-radius: 8px;
+        border-radius: 4px;
         font-size: 16px;
         background-color: var(--bg-secondary);
         color: var(--text-primary);
@@ -195,22 +200,25 @@
       #walletAddress {
         font-size: 0.9em;
         color: var(--text-secondary);
-        margin: 15px 0;
+        margin: 15px auto;
         word-wrap: break-word;
         padding: 10px;
         background-color: var(--status-bg);
-        border-radius: 8px;
+        border-radius: 4px;
+        max-width: 100%;
+        text-align: center;
       }
 
       #carDetails,
       #status {
         margin-top: 20px;
         padding: 20px;
-        border-radius: 10px;
+        border-radius: 4px;
         background-color: var(--status-bg);
         color: var(--text-primary);
         line-height: 1.6;
         transition: background-color 0.3s;
+        text-align: center;
       }
 
       #carDetails h3 {
@@ -269,6 +277,7 @@
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
+        justify-content: center;
       }
 
       @media (max-width: 768px) {
@@ -340,6 +349,51 @@
       </div>
 
       <div class="container container-right">
+        <div class="section">
+          <h2>My Registered Car</h2>
+          <div id="carNameDisplay" style="display: none">
+            <div
+              style="
+                background: linear-gradient(
+                  135deg,
+                  var(--btn-primary) 0%,
+                  var(--btn-primary-hover) 100%
+                );
+                color: white;
+                padding: 20px;
+                border-radius: 4px;
+                margin-bottom: 20px;
+                text-align: center;
+              "
+            >
+              <h3 style="margin: 0 0 10px 0; font-size: 0.9em; opacity: 0.9">
+                🚗 Your Car
+              </h3>
+              <div
+                id="carNameValue"
+                style="font-size: 2rem; font-weight: bold; margin: 0"
+              >
+                -
+              </div>
+              <div
+                id="carModelValue"
+                style="font-size: 1.2rem; margin-top: 8px; opacity: 0.9"
+              >
+                -
+              </div>
+            </div>
+          </div>
+          <div
+            id="noCarMessage"
+            style="
+              text-align: center;
+              padding: 40px;
+              color: var(--text-secondary);
+            "
+          >
+            <p>No car registered yet. Register your car to see it here!</p>
+          </div>
+        </div>
         <div class="section">
           <h2>Status & Details</h2>
           <div id="status"></div>
