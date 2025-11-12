@@ -29,7 +29,37 @@ This is a simple decentralized application (DApp) that allows users to register 
 
 1.  **MetaMask**: A web browser extension for managing Ethereum wallets. [Download here](https://metamask.io/).
 2.  **Node.js & npm**: Required if you want to serve the files locally using a simple server.
-3.  **Sepolia Test Ether**: You'll need some test Ether for the **Sepolia** test network to pay for gas fees. You can get this from a public faucet like [sepoliafaucet.com](https://sepoliafaucet.com/) or [infura.io/faucet/sepolia](https://infura.io/faucet/sepolia).
+3.  **Test Ether (ETH)**: You'll need test ETH to pay for gas fees on the test network. **Even on test networks, you need ETH to pay for transactions!** The good news is test ETH is free from faucets.
+
+#### Getting Test ETH from Faucets:
+
+**For Sepolia Test Network:**
+
+- [sepoliafaucet.com](https://sepoliafaucet.com/)
+- [infura.io/faucet/sepolia](https://infura.io/faucet/sepolia)
+- [faucet.quicknode.com/ethereum/sepolia](https://faucet.quicknode.com/ethereum/sepolia)
+- [faucets.chain.link](https://faucets.chain.link/)
+
+**For Holesky Test Network (formerly Hoodi):**
+
+- [holesky-faucet.pk910.de](https://holesky-faucet.pk910.de/)
+- [faucet.quicknode.com/ethereum/holesky](https://faucet.quicknode.com/ethereum/holesky)
+
+**For Goerli Test Network:**
+
+- [goerlifaucet.com](https://goerlifaucet.com/)
+- [faucets.chain.link/goerli](https://faucets.chain.link/goerli)
+
+**How to Use a Faucet:**
+
+1. Make sure MetaMask is connected to the correct test network
+2. Copy your wallet address from MetaMask
+3. Paste it into the faucet website
+4. Complete any required verification (CAPTCHA, social media, etc.)
+5. Wait a few minutes for the test ETH to arrive in your wallet
+6. You'll typically receive 0.1-0.5 test ETH, which is enough for many transactions
+
+**Note:** Gas fees on test networks are usually very small (less than 0.001 ETH per transaction), so a small amount of test ETH goes a long way!
 
 ### Step 1: Deploy the Smart Contract
 
@@ -42,9 +72,11 @@ This is a simple decentralized application (DApp) that allows users to register 
 4.  **Deploy the Contract**:
     - Go to the "Deploy & Run Transactions" tab (fourth icon).
     - In the "ENVIRONMENT" dropdown, select **Injected Provider - MetaMask**. This will connect Remix to your MetaMask wallet.
-    - Make sure your MetaMask is connected to the **Sepolia** test network. If you don't see it, you can enable it in MetaMask's settings under "Advanced" > "Show test networks".
+    - Make sure your MetaMask is connected to a **test network** (Sepolia, Holesky, or Goerli). If you don't see test networks, enable them in MetaMask's settings under "Advanced" > "Show test networks".
+    - **Important:** Make sure you have test ETH in your wallet! If you see "Insufficient funds" error, get test ETH from a faucet (see Prerequisites above).
     - Under the "CONTRACT" dropdown, make sure `CarRegistry` is selected.
     - Click the **Deploy** button and confirm the transaction in MetaMask.
+    - The deployment will cost a small amount of test ETH (usually 0.001-0.01 ETH) for gas fees.
 
 ### Step 2: Get the Contract Address and ABI
 
@@ -99,7 +131,10 @@ This is a simple decentralized application (DApp) that allows users to register 
 **After the server starts:**
 
 1. **Connect Wallet**: Click the "Connect Wallet" button and approve the connection in MetaMask
-2. **Interact**: You can now register your car and view its details
+2. **Check Your Balance**: Make sure you have test ETH in your wallet. If you see "Insufficient funds" error, get test ETH from a faucet (see Prerequisites above)
+3. **Interact**: You can now register your car and view its details
+   - Registering a car costs a small amount of test ETH (gas fee, usually < 0.001 ETH)
+   - Viewing your car is free (read-only operation)
 
 ## How It Works
 
