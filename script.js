@@ -17,7 +17,7 @@ const noCarMessage = document.getElementById("noCarMessage");
 // ------------------------------------------------------------------
 // TODO: REPLACE WITH YOUR CONTRACT ADDRESS AND ABI
 // ------------------------------------------------------------------
-const contractAddress = "0x6F36900b70FCfbB0706B43b10CaF4Ea30510e0d1"; // <-- Replace with your deployed contract address
+const contractAddress = "0x747e35c6037f8605A8aF3A957a62bCa98BA3dB6d"; // <-- Replace with your deployed contract address
 const contractABI = [
   {
     anonymous: false,
@@ -122,6 +122,43 @@ let provider;
 let signer;
 let contract;
 
+// Hoodi Testnet Configuration
+const HOODI_TESTNET_CONFIG = {
+  chainId: "0x7B",
+  chainName: "Hoodi Testnet",
+  rpcUrls: ["https://rpc.hoodi.io"],
+  nativeCurrency: {
+    name: "Hoodi",
+    symbol: "HDI",
+    decimals: 18,
+  },
+  blockExplorerUrls: ["https://explorer.hoodi.io"],
+};
+
+// Function to switch to Hoodi Testnet
+async function switchToHoodiTestnet() {
+  try {
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: HOODI_TESTNET_CONFIG.chainId }],
+    });
+  } catch (switchError) {
+    if (switchError.code === 4902) {
+      // Chain not added to MetaMask, add it
+      try {
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [HOODI_TESTNET_CONFIG],
+        });
+      } catch (addError) {
+        throw new Error(`Failed to add Hoodi Testnet: ${addError.message}`);
+      }
+    } else {
+      throw switchError;
+    }
+  }
+}
+
 // 1. Connect to MetaMask
 connectWalletBtn.addEventListener("click", async () => {
   if (typeof window.ethereum === "undefined") {
@@ -130,6 +167,9 @@ connectWalletBtn.addEventListener("click", async () => {
   }
 
   try {
+    // Switch to Hoodi Testnet first
+    await switchToHoodiTestnet();
+
     // Request account access
     await window.ethereum.request({ method: "eth_requestAccounts" });
 
